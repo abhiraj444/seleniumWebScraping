@@ -1,0 +1,1 @@
+Trying to scrape data from flipkart and amazon using simple selenium with java for automation practice.
