@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="MyTestSuite" parallel="classes" thread-count="2">
+    <test name="AmazonAndFlipkartTests">
+        <classes>
+            <class name="DatascraperWithAmazonCsvTest" />
+            <class name="DatascraperWithFlipkartCsvTest" />
+        </classes>
+    </test>
+</suite>
