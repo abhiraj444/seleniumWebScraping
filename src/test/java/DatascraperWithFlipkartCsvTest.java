@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatascraperWithFlipkartCsvTest {
@@ -31,7 +32,7 @@ public class DatascraperWithFlipkartCsvTest {
         // }
 
         WebElement searchBox = driver.findElement(By.cssSelector("input[name=\"q\"]"));
-        String query = "Phone";
+        String query = "flower";
         searchBox.sendKeys(query);
         searchBox.sendKeys(Keys.ENTER);
 
@@ -47,15 +48,23 @@ public class DatascraperWithFlipkartCsvTest {
 
             while (currentpage<totalPage) {
 //                List<WebElement> listOfItems = driver.findElements(By.cssSelector("div.cPHDOP"));
-                List<WebElement> listOfItems = driver.findElements(By.cssSelector("div.slAVV4"));
-
+//                List<WebElement> listOfItems = driver.findElements(By.cssSelector("div.slAVV4"));
+                List<WebElement> listOfItems = new ArrayList<>();
+                listOfItems = driver.findElements(By.cssSelector("div.slAVV4"));
+                if (listOfItems.isEmpty()) {
+                    listOfItems = driver.findElements(By.cssSelector("div.cPHDOP"));
+                }
                 System.out.println("Currently at page no. " + currentpage);
                 System.out.println("Till now " + tillNow + " product added");
 
                 for (WebElement item : listOfItems) {
 //                    List<WebElement> productNameEle = item.findElements(By.cssSelector("div.KzDlHZ"));
-                    List<WebElement> productNameEle = item.findElements(By.cssSelector("a.wjcEIp"));
-
+//                    List<WebElement> productNameEle = item.findElements(By.cssSelector("a.wjcEIp"));
+                    List<WebElement> productNameEle = new ArrayList<>();
+                    productNameEle=item.findElements(By.cssSelector("div.KzDlHZ"));
+                    if(productNameEle.isEmpty()){
+                        productNameEle = item.findElements(By.cssSelector("a.wjcEIp"));
+                    }
                     if (productNameEle.isEmpty()) {
                         continue;
                     } else {
@@ -65,7 +74,12 @@ public class DatascraperWithFlipkartCsvTest {
                     }
 
 //                    List<WebElement> currPriceEle = item.findElements(By.cssSelector("div[class=\"Nx9bqj _4b5DiR\"]"));
-                    List<WebElement> currPriceEle = item.findElements(By.cssSelector("div.Nx9bqj"));
+//                    List<WebElement> currPriceEle = item.findElements(By.cssSelector("div.Nx9bqj"));
+                    List<WebElement> currPriceEle = new ArrayList<>();
+                    currPriceEle=item.findElements(By.cssSelector("div[class=\"Nx9bqj _4b5DiR\"]"));
+                    if(currPriceEle.isEmpty()){
+                        currPriceEle = item.findElements(By.cssSelector("div.Nx9bqj"));
+                    }
 
                     if (!currPriceEle.isEmpty()) {
                         String currentPrice = currPriceEle.get(0).getText();  // Use get(0) instead of getFirst()
@@ -75,8 +89,12 @@ public class DatascraperWithFlipkartCsvTest {
                     }
 
 //                    List<WebElement> origPriceEle = item.findElements(By.cssSelector("div[class=\"yRaY8j ZYYwLA\"]"));
-                    List<WebElement> origPriceEle = item.findElements(By.cssSelector("div.yRaY8j"));
-
+//                    List<WebElement> origPriceEle = item.findElements(By.cssSelector("div.yRaY8j"));
+                    List<WebElement> origPriceEle = new ArrayList<>();
+                    origPriceEle=item.findElements(By.cssSelector("div[class=\"yRaY8j ZYYwLA\"]"));
+                    if(origPriceEle.isEmpty()){
+                        origPriceEle = item.findElements(By.cssSelector("div.yRaY8j"));
+                    }
                     if (!origPriceEle.isEmpty()) {
                         String originalPrice = origPriceEle.get(origPriceEle.size() - 1).getAttribute("innerText");  // Use get(size() - 1) instead of getLast()
                         writer.println("," + '"' + originalPrice + '"');
